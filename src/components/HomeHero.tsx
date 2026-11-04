@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { home } from "@/content/home";
+import HeroScrollLine from "@/components/HeroScrollLine";
 import { site } from "@/content/site";
 
-// Full-height editorial hero: headline with an italic brass second line,
-// an arched image with an offset brass outline, and a floating consultation card.
+// Cinematic full-width hero: photo anchored right and faded into navy, large headline on the left,
+// gold corner frame, and a glass contact bar along the bottom.
 function QuickIcon({ kind }: { kind: "phone" | "whatsapp" | "email" }) {
   const common = { viewBox: "0 0 24 24", className: "h-5 w-5", "aria-hidden": true } as const;
   if (kind === "phone") {
@@ -54,26 +55,39 @@ export default function HomeHero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative isolate overflow-hidden bg-primary-strong text-white"
+      className="relative isolate flex min-h-[calc(100svh-5rem)] flex-col overflow-hidden bg-primary-strong text-white md:min-h-[calc(100svh-6rem)]"
     >
-      {/* Atmosphere: warm light from the image side, grain, and an inset frame */}
+      {/* Cinematic photograph, anchored right and faded into the navy on the left */}
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-30 h-[22rem] overflow-hidden sm:h-[28rem] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-auto lg:w-[68%]">
+        <div className="absolute inset-0 origin-[100%_30%] motion-safe:animate-drift">
+          <Image
+            src={hero.image.src}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 68vw, 100vw"
+            className="object-cover object-[88%_30%] lg:object-[100%_30%] motion-safe:animate-settle"
+          />
+        </div>
+      </div>
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-20 h-[22rem] bg-gradient-to-b from-primary-strong/20 via-primary-strong/20 to-primary-strong sm:h-[28rem] lg:hidden" />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(64rem_44rem_at_80%_35%,rgb(200_165_106/0.14),transparent_65%)]"
+        className="absolute inset-0 -z-20 hidden bg-gradient-to-r from-primary-strong from-30% via-primary-strong/75 via-48% to-primary-strong/5 lg:block"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 -z-20 h-1/3 bg-gradient-to-t from-primary-strong/90 to-transparent"
+      />
+
+      {/* Atmosphere: slow light, grain, gold dust */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-[10%] top-[5%] -z-10 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(closest-side,rgb(200_165_106/0.18),transparent)] motion-safe:animate-glow"
       />
       <div
         aria-hidden="true"
         className="bg-grain pointer-events-none absolute inset-0 -z-10 opacity-[0.08] mix-blend-overlay"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-3 -z-10 border border-white/[0.07] md:inset-6"
-      />
-
-      {/* Motion: slow-drifting glow and rising gold dust (decorative, off for reduced motion) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-[10%] top-[5%] -z-10 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(closest-side,rgb(200_165_106/0.22),transparent)] motion-safe:animate-glow"
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden motion-reduce:hidden">
         {DUST.map((p, i) => (
@@ -96,7 +110,16 @@ export default function HomeHero() {
         ))}
       </div>
 
-      {/* Vertical side label (wide screens) */}
+      {/* Thin frame with gold corner marks */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-3 md:inset-6">
+        <div className="absolute inset-0 border border-white/[0.08]" />
+        <span className="absolute left-0 top-0 h-8 w-8 border-l border-t border-accent-light/70" />
+        <span className="absolute right-0 top-0 h-8 w-8 border-r border-t border-accent-light/70" />
+        <span className="absolute bottom-0 left-0 h-8 w-8 border-b border-l border-accent-light/70" />
+        <span className="absolute bottom-0 right-0 h-8 w-8 border-b border-r border-accent-light/70" />
+      </div>
+
+      {/* Vertical side label (very wide screens) */}
       <p
         aria-hidden="true"
         className="absolute left-12 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 -rotate-90 whitespace-nowrap text-[0.6rem] uppercase tracking-[0.5em] text-white/35 2xl:block"
@@ -106,103 +129,67 @@ export default function HomeHero() {
         {hero.location}
       </p>
 
-      <div className="mx-auto grid max-w-site items-center gap-20 px-gutter pb-24 pt-14 md:pt-20 lg:min-h-[calc(100svh-6rem)] lg:grid-cols-12 lg:gap-10 lg:pb-28">
-        {/* Copy */}
-        <div className="lg:col-span-7">
-          <p className="eyebrow flex items-center gap-4 text-accent-light motion-safe:animate-rise">
-            <span aria-hidden="true" className="h-px w-10 bg-current" />
-            {hero.eyebrow}
-          </p>
+      {/* Copy */}
+      <div className="flex flex-1 items-center">
+        <div className="mx-auto w-full max-w-site px-gutter pb-16 pt-[18rem] sm:pt-[23rem] lg:py-24">
+          <div className="max-w-2xl">
+            <p className="eyebrow flex items-center gap-4 text-accent-light motion-safe:animate-rise">
+              <span aria-hidden="true" className="h-px w-10 bg-current" />
+              {hero.eyebrow}
+            </p>
 
-          <h1
-            id="hero-heading"
-            className="mt-8 text-[3.1rem] leading-[0.98] tracking-[-0.02em] text-white sm:text-7xl lg:text-[5.5rem] xl:text-[6.25rem]"
-          >
-            <span className="block motion-safe:animate-rise motion-safe:[animation-delay:120ms]">
-              {hero.headline}
-            </span>
-            {hero.headlineEmphasis && (
-              <span className="block pb-[0.18em] -mb-[0.18em] bg-[linear-gradient(100deg,#c8a56a_30%,#f4e3bd_50%,#c8a56a_70%)] bg-[length:200%_100%] bg-clip-text italic text-transparent motion-safe:animate-[rise_1s_cubic-bezier(0.16,1,0.3,1)_240ms_both,shimmer_6s_linear_1.5s_infinite]">
-                {hero.headlineEmphasis}
+            <h1
+              id="hero-heading"
+              className="mt-8 text-[3.1rem] leading-[0.98] tracking-[-0.02em] text-white sm:text-7xl lg:text-[5.5rem] xl:text-[6.25rem]"
+            >
+              <span className="block motion-safe:animate-rise motion-safe:[animation-delay:120ms]">
+                {hero.headline}
               </span>
-            )}
-          </h1>
+              {hero.headlineEmphasis && (
+                <span className="-mb-[0.18em] block bg-[linear-gradient(100deg,#c8a56a_30%,#f4e3bd_50%,#c8a56a_70%)] bg-[length:200%_100%] bg-clip-text pb-[0.18em] italic text-transparent motion-safe:animate-[rise_1s_cubic-bezier(0.16,1,0.3,1)_240ms_both,shimmer_6s_linear_1.5s_infinite]">
+                  {hero.headlineEmphasis}
+                </span>
+              )}
+            </h1>
 
-          <div className="mt-10 flex max-w-xl gap-6 motion-safe:animate-rise motion-safe:[animation-delay:380ms]">
-            <span aria-hidden="true" className="mt-[0.85rem] hidden h-px w-12 shrink-0 bg-accent-light/60 sm:block" />
-            <p className="text-lg leading-relaxed text-white/70 md:text-xl">{hero.intro}</p>
-          </div>
-
-          <div className="mt-12 flex motion-safe:animate-rise motion-safe:[animation-delay:500ms]">
-            <Link href={hero.cta.href} className="btn-accent">
-              {hero.cta.label}
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Arched image */}
-        <div className="relative lg:col-span-5 lg:pl-6">
-          <div className="relative mx-auto w-[86%] max-w-md sm:w-full lg:max-w-none">
-            <div
-              aria-hidden="true"
-              className="absolute -right-3 -top-3 bottom-3 left-3 rounded-t-full border border-accent-light/40 motion-safe:animate-fade-in motion-safe:[animation-delay:900ms] md:-right-5 md:-top-5 md:bottom-5 md:left-5"
-            />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-primary motion-safe:animate-reveal motion-safe:[animation-delay:200ms]">
-              <div className="absolute inset-0 motion-safe:animate-drift">
-              <Image
-                src={hero.image.src}
-                alt={hero.image.alt}
-                fill
-                priority
-                sizes="(min-width: 1024px) 38vw, 86vw"
-                className="object-cover motion-safe:animate-settle motion-safe:[animation-delay:200ms]"
-              />
-              </div>
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-                <span className="absolute inset-y-0 left-0 block w-1/4 bg-gradient-to-r from-transparent via-white/20 to-transparent motion-safe:animate-sweep" />
-              </div>
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-primary-strong/45 via-transparent to-transparent"
-              />
+            <div className="mt-10 flex max-w-xl gap-6 motion-safe:animate-rise motion-safe:[animation-delay:380ms]">
+              <span aria-hidden="true" className="mt-[0.85rem] hidden h-px w-12 shrink-0 bg-accent-light/60 sm:block" />
+              <p className="text-lg leading-relaxed text-white/75 md:text-xl">{hero.intro}</p>
             </div>
 
-            {/* Floating consultation card */}
-            <aside
-              aria-label={hero.panelLabel}
-              className="absolute -bottom-10 -left-6 w-[82%] max-w-xs border border-white/10 bg-primary-strong/80 p-6 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)] backdrop-blur-md motion-safe:animate-rise motion-safe:[animation-delay:1100ms] sm:-left-10 md:p-7"
-            >
-              <p className="eyebrow text-accent-light">{hero.panelLabel}</p>
-              <ul className="mt-4 flex gap-3">
-                {site.quickContact.map((item) => (
-                  <li key={item.kind}>
-                    <a
-                      href={item.href}
-                      aria-label={item.label}
-                      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-accent-light transition-colors duration-300 hover:border-accent-light hover:bg-accent-light hover:text-primary-strong"
-                    >
-                      <QuickIcon kind={item.kind} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <div aria-hidden="true" className="my-4 h-px bg-white/10" />
-              <p className="text-sm text-white/60">{site.contact.hours}</p>
-            </aside>
+            <div className="mt-12 flex motion-safe:animate-rise motion-safe:[animation-delay:500ms]">
+              <Link href={hero.cta.href} className="btn-accent">
+                {hero.cta.label}
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll cue (very wide screens only, where it has room) */}
-      <div
-        aria-hidden="true"
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 2xl:flex"
-      >
-        <span className="text-[0.58rem] uppercase tracking-[0.45em] text-white/40">Scroll</span>
-        <span className="relative block h-12 w-px overflow-hidden bg-white/15">
-          <span className="absolute inset-x-0 top-0 h-1/2 bg-accent-light motion-safe:animate-scroll-cue" />
-        </span>
+      {/* Glass contact bar */}
+      <div className="relative mx-3 mb-3 border-t border-white/10 bg-primary-strong/55 backdrop-blur-md motion-safe:animate-rise motion-safe:[animation-delay:900ms] md:mx-6 md:mb-6">
+        <div className="mx-auto flex max-w-site flex-col gap-6 px-gutter py-5 md:flex-row md:items-center md:justify-between md:py-6">
+          <div className="flex items-center gap-5">
+            <p className="eyebrow hidden text-accent-light sm:block">{hero.panelLabel}</p>
+            <ul className="flex gap-3">
+              {site.quickContact.map((item) => (
+                <li key={item.kind}>
+                  <a
+                    href={item.href}
+                    aria-label={item.label}
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-accent-light transition-colors duration-300 hover:border-accent-light hover:bg-accent-light hover:text-primary-strong"
+                  >
+                    <QuickIcon kind={item.kind} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="max-w-[12rem] text-sm text-white/65 sm:max-w-none">{site.contact.hours}</p>
+          <p className="hidden font-heading text-lg italic text-white/70 lg:block">{site.tagline}</p>
+        </div>
+        <HeroScrollLine />
       </div>
     </section>
   );

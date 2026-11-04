@@ -102,7 +102,7 @@ export default function EntryNotice({
   const pad = (n: number) => String(n + 1).padStart(2, "0");
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-primary-strong/90 px-gutter py-5 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-primary-strong/90 px-4 py-4 backdrop-blur-sm sm:px-gutter">
       <div
         ref={dialogRef}
         role="dialog"
@@ -110,51 +110,52 @@ export default function EntryNotice({
         aria-labelledby="entry-notice-title"
         aria-describedby="entry-notice-intro"
         onKeyDown={handleKeyDown}
-        className="max-h-full w-full max-w-3xl overflow-y-auto bg-background shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]"
+        className="flex max-h-full w-full max-w-2xl flex-col overflow-hidden bg-background shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]"
       >
-        <div className="relative p-7 md:p-12">
+        <div className="relative flex min-h-0 flex-1 flex-col p-5 md:px-9 md:py-7">
           {/* Inner frame */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-3 border border-border" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-2 border border-border" />
 
-          <div className="relative">
-            <div className="text-center">
-              <p className="eyebrow flex items-center justify-center gap-4 text-accent">
-                <span aria-hidden="true" className="h-px w-10 bg-current" />
+          <div className="relative flex min-h-0 flex-1 flex-col">
+            <div className="shrink-0 text-center">
+              <p className="eyebrow flex items-center justify-center gap-3 text-[0.65rem] text-accent">
+                <span aria-hidden="true" className="h-px w-8 bg-current" />
                 Before you enter
-                <span aria-hidden="true" className="h-px w-10 bg-current" />
+                <span aria-hidden="true" className="h-px w-8 bg-current" />
               </p>
-              <h2 id="entry-notice-title" className="mt-5 text-4xl md:text-5xl">
+              <h2 id="entry-notice-title" className="mt-3 text-3xl md:text-4xl">
                 {title}
               </h2>
-              <div aria-hidden="true" className="mx-auto mt-6 h-px w-16 bg-accent" />
+              <div aria-hidden="true" className="mx-auto mt-3 h-px w-12 bg-accent" />
             </div>
 
-            <p id="entry-notice-intro" className="mt-8 leading-relaxed text-ink">
+            <p id="entry-notice-intro" className="mt-4 shrink-0 text-sm leading-relaxed text-ink md:text-[0.95rem]">
               {intro}
             </p>
 
-            {/* Scrollable terms. Focusable so keyboard users can scroll with the arrow keys. */}
+            {/* Scrollable terms. Takes whatever height is left, so the button is always visible.
+                Focusable so keyboard users can scroll with the arrow keys. */}
             <div
               role="region"
               aria-label="Disclaimer terms"
               tabIndex={0}
-              className="scroll-shadows mt-6 max-h-[36vh] overflow-y-auto border border-border p-5 md:max-h-[44vh] md:p-7"
+              className="scroll-shadows mt-4 min-h-24 flex-1 overflow-y-auto border border-border p-4 md:px-5 md:py-4"
             >
               <ol className="divide-y divide-border">
                 {points.map((point, i) => (
-                  <li key={point} className="flex gap-5 py-4 first:pt-0 last:pb-0">
-                    <span aria-hidden="true" className="font-heading text-lg font-bold leading-snug text-accent">
+                  <li key={point} className="flex gap-4 py-3 first:pt-0 last:pb-0">
+                    <span aria-hidden="true" className="font-heading text-base font-bold leading-snug text-accent">
                       {pad(i)}
                     </span>
-                    <span className="leading-relaxed text-ink">{point}</span>
+                    <span className="text-sm leading-relaxed text-ink md:text-[0.95rem]">{point}</span>
                   </li>
                 ))}
               </ol>
             </div>
 
-            {closing && <p className="mt-6 text-center text-sm text-muted">{closing}</p>}
+            {closing && <p className="mt-3 shrink-0 text-center text-xs text-muted md:text-sm">{closing}</p>}
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-4 flex shrink-0 justify-center">
               <button ref={proceedRef} type="button" onClick={proceed} className="btn-primary">
                 {buttonLabel}
                 <span aria-hidden="true">&rarr;</span>
